@@ -14,6 +14,7 @@ gem 'puma', '~> 3.11'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-rails'
+  gem 'rubocop', '0.55.0', require: false
 end
 
 group :development do
