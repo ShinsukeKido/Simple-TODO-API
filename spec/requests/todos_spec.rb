@@ -50,7 +50,6 @@ RSpec.describe TodosController, type: :request do
 
     it '出力される JSON に、作成した todo の内容が正しく反映されている' do
       post '/todos', params: todo_params
-      expect(json.keys).to eq %w[id title text created_at]
       expect(json['id']).to eq Todo.first.id
       expect(json['title']).to eq Todo.first.title
       expect(json['text']).to eq Todo.first.text
