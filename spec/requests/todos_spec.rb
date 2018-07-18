@@ -11,24 +11,24 @@ RSpec.describe TodosController, type: :request do
 
     it 'todo が作成された数だけ JSON 形式で返る' do
       get '/todos'
-      jsons = JSON.parse(response.body)
-      expect(jsons.count).to eq 3
+      json = JSON.parse(response.body)
+      expect(json.count).to eq 3
     end
 
     it '出力される JSON のキーが仕様通りである' do
       get '/todos'
-      jsons = JSON.parse(response.body)
-      expect(jsons[0].keys).to include('id', 'title', 'text', 'created_at')
+      json = JSON.parse(response.body)
+      expect(json[0].keys).to include('id', 'title', 'text', 'created_at')
     end
 
     it '返す JSON に、作成した todo の内容が正しく反映されている' do
       get '/todos'
-      jsons = JSON.parse(response.body)
+      json = JSON.parse(response.body)
       todo = Todo.order(:created_at).first
-      expect(jsons[0]['id']).to eq todo.id
-      expect(jsons[0]['title']).to eq todo.title
-      expect(jsons[0]['text']).to eq todo.text
-      expect(jsons[0]['created_at']).to eq todo.created_at.as_json
+      expect(json[0]['id']).to eq todo.id
+      expect(json[0]['title']).to eq todo.title
+      expect(json[0]['text']).to eq todo.text
+      expect(json[0]['created_at']).to eq todo.created_at.as_json
     end
   end
 end
