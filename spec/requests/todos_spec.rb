@@ -18,6 +18,7 @@ RSpec.describe TodosController, type: :request do
     it '出力される JSON のキーが仕様通りである' do
       get '/todos'
       jsons = JSON.parse(response.body)
+      expect(jsons[0].keys).to include('id', 'title', 'text', 'created_at')
     end
 
     it '返す JSON に、作成した todo の内容が正しく反映されている' do
