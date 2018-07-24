@@ -14,19 +14,6 @@ RSpec.describe TodosController, type: :request do
       json = JSON.parse(response.body)
       expect(json.count).to eq 3
     end
-
-    it '返す JSON に、作成した todo の内容が正しく反映されている' do
-      get '/todos'
-      json = JSON.parse(response.body)
-      todo = Todo.order(:created_at)
-      expected_response = {
-        'id'         => todo.first.id,
-        'title'      => todo.first.title,
-        'text'       => todo.first.text,
-        'created_at' => todo.first.created_at.as_json,
-      }
-      expect(json[0]).to eq expected_response
-    end
   end
 
   describe '#create' do
@@ -39,19 +26,6 @@ RSpec.describe TodosController, type: :request do
 
     it 'todo を新規作成する' do
       expect { post '/todos', params: todo_params }.to change { Todo.count }.by(1)
-    end
-
-    it '返す JSON に、作成した todo の内容が正しく反映されている' do
-      post '/todos', params: todo_params
-      json = JSON.parse(response.body)
-      todo = Todo.order(:created_at).last
-      expected_response = {
-        'id'         => todo.id,
-        'title'      => todo.title,
-        'text'       => todo.text,
-        'created_at' => todo.created_at.as_json,
-      }
-      expect(json).to eq expected_response
     end
   end
 end
