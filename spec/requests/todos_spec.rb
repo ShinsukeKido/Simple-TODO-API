@@ -15,10 +15,14 @@ RSpec.describe TodosController, type: :request do
       expect(json.count).to eq 3
     end
 
-    it '返す JSON が、配列である' do
+    it '返す JSON に、作成した todo の内容が正しく反映されている' do
       get '/todos'
       json = JSON.parse(response.body)
-      expect(json).to be_an_instance_of(Array)
+      todo = Todo.order(:created_at).first
+      expect(json[0]['id']).to eq todo.id
+      expect(json[0]['title']).to eq todo.title
+      expect(json[0]['text']).to eq todo.text
+      expect(json[0]['created_at']).to eq todo.created_at.as_json
     end
   end
 
@@ -34,10 +38,12 @@ RSpec.describe TodosController, type: :request do
       expect { post '/todos', params: todo_params }.to change { Todo.count }.by(1)
     end
 
-    it '返す JSON が、ハッシュである' do
+    it '返す JSON に、作成した todo の内容が正しく反映されている' do
       post '/todos', params: todo_params
       json = JSON.parse(response.body)
-      expect(json).to be_an_instance_of(Hash)
+      todo = Todo.order(:created_at).first
+      expect(json['title']).to eq todo.title
+      expect(json['text']).to eq todo.text
     end
   end
 end
